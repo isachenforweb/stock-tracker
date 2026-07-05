@@ -66,9 +66,16 @@ footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
 <div id="err"></div>
 <div id="alertBanner"></div>
 
+<div class="card" style="font-size:.88rem">
+  <b>📖 怎麼用（3 步驟）</b><br>
+  ① 打開先看最上面的框 → 有 <b>🔔</b> 就是那檔股票漲回來了，<b>可以去券商 App 賣掉</b><br>
+  ② 沒有 🔔 就直接關掉，過幾天再看就好<br>
+  ③ 下面每檔股票右邊有「賣／留／未定」按鈕，看完紀念品決定要不要留，點一下就記住了
+</div>
+
 <section>
   <h2>🔻 要賣的<span class="count" id="cSell"></span></h2>
-  <div class="pill-note">反彈訊號：🔔＝收盤價創近 20 個交易日新高（好賣點）；📈＝距離近月高點 2% 內。</div>
+  <div class="pill-note">這些是決定要賣的股票。🔔 亮了＝漲回近一個月最高，就是好賣點。</div>
   <div id="sellList"></div>
 </section>
 
@@ -100,21 +107,22 @@ const bust = '?t=' + Date.now();
 
 function fmtPct(p){
   if(p === null || p === undefined || isNaN(p)) return '';
-  const cls = p > 0.05 ? 'up' : p < -0.05 ? 'down' : 'flat';
-  return `<span class="${cls}">${p>0?'+':''}${p.toFixed(1)}%</span>`;
+  if(p >= 0) return '<span class="up">新高 🎉</span>';
+  const cls = p < -0.05 ? 'down' : 'flat';
+  return `<span class="${cls}">距高點 ${p.toFixed(1)}%</span>`;
 }
 
 function signalOf(code, prices, history){
   const q = prices.quotes[code];
-  if(!q) return {level:-1, text:'無自動報價', pct:null};
+  if(!q) return {level:-1, text:'查無報價', pct:null};
   const hist = (history[code]||[]).filter(r => r[0] !== q.date);
   const closes = hist.slice(-20).map(r => r[1]);
-  if(closes.length < 8) return {level:0, text:'資料累積中', pct:null};
+  if(closes.length < 8) return {level:0, text:'📊 資料還不夠', pct:null};
   const high20 = Math.max(...closes);
   const pct = (q.close/high20 - 1)*100;
-  if(q.close >= high20) return {level:2, text:'🔔 近月新高，可以賣', pct};
-  if(q.close >= high20*0.98) return {level:1, text:'📈 接近前高', pct};
-  return {level:0, text:`距近月高點 ${pct.toFixed(1)}%`, pct};
+  if(q.close >= high20) return {level:2, text:'🔔 可以賣了！', pct};
+  if(q.close >= high20*0.98) return {level:1, text:'📈 快到了，再等等', pct};
+  return {level:0, text:'🧊 還在低點，等反彈', pct};
 }
 
 function decisionOf(s){
