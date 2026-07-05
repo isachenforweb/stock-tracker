@@ -62,7 +62,7 @@ footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
 </head>
 <body>
 <h1>🐱 貓貓持股追蹤</h1>
-<div class="sub" id="updated">載入中…</div>
+<div class="sub" id="updated">載入中…　<a href="#" id="resetBtn" style="color:var(--accent)">↺ 恢復預設分類</a></div>
 <div id="err"></div>
 <div id="alertBanner"></div>
 
@@ -181,6 +181,15 @@ function renderCalendar(stocks){
   $('calList').innerHTML = up.length ? up.map(row).join('') : '<div class="card">近期沒有要領的紀念品 🎉</div>';
   $('calPast').innerHTML = past.map(row).join('');
 }
+
+document.getElementById('resetBtn').addEventListener('click', e => {
+  e.preventDefault();
+  if(!confirm('把所有「賣／留／未定」恢復成預設分類？')) return;
+  Object.keys(localStorage)
+    .filter(k => k.startsWith('decision_'))
+    .forEach(k => localStorage.removeItem(k));
+  main();
+});
 
 async function main(){
   try{
