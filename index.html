@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>貓貓持股追蹤</title>
+<style>
+:root{
+  --bg:#f7f7f5; --card:#ffffff; --ink:#1a1a1a; --muted:#6b7280; --line:#e5e7eb;
+  --up:#d43a3a; --down:#1a9e5c; --accent:#4d6bd8; --accent-soft:#eef1fc;
+  --ring:#f4b942; --ring-soft:#fdf3dd; --sell:#fbe9e9; --sell-ink:#b42318;
+  --keep:#e7f4ec; --keep-ink:#177245; --tbd:#f1f1ef; --tbd-ink:#555;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#101114; --card:#1a1c20; --ink:#eceff4; --muted:#9aa2af; --line:#2b2e34;
+    --up:#ff7a7a; --down:#4fd08d; --accent:#8ea4f2; --accent-soft:#232a42;
+    --ring:#f4b942; --ring-soft:#3a320c; --sell:#3a2020; --sell-ink:#ff9d90;
+    --keep:#16301f; --keep-ink:#7fd8a5; --tbd:#26272b; --tbd-ink:#b9bec7;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang TC","Noto Sans TC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding:16px;max-width:860px;margin:0 auto}
+h1{font-size:1.35rem;margin-bottom:2px}
+h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
+.sub{color:var(--muted);font-size:.8rem;margin-bottom:14px}
+.banner{background:var(--ring-soft);border:1px solid var(--ring);border-radius:12px;padding:12px 14px;margin:12px 0;font-size:.95rem}
+.banner.quiet{background:var(--card);border-color:var(--line);color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:10px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.grow{flex:1;min-width:130px}
+.name{font-weight:700}
+.code{color:var(--muted);font-size:.8rem;margin-left:4px;font-weight:400}
+.gift{color:var(--muted);font-size:.82rem;margin-top:2px}
+.price{font-variant-numeric:tabular-nums;text-align:right;min-width:72px}
+.price b{font-size:1.02rem}
+.pct{font-size:.78rem;display:block}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--muted)}
+.sig{font-size:.78rem;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.sig.hot{background:var(--ring-soft);border:1px solid var(--ring);font-weight:700}
+.sig.near{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.sig.none{color:var(--muted)}
+.tag{font-size:.72rem;border-radius:6px;padding:1px 6px;background:var(--tbd);color:var(--tbd-ink)}
+.tag.voucher{background:var(--sell);color:var(--sell-ink)}
+.toggle{display:flex;gap:4px}
+.toggle button{font-size:.75rem;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:3px 10px;cursor:pointer}
+.toggle button.on-sell{background:var(--sell);color:var(--sell-ink);border-color:transparent;font-weight:700}
+.toggle button.on-keep{background:var(--keep);color:var(--keep-ink);border-color:transparent;font-weight:700}
+.toggle button.on-tbd{background:var(--tbd);color:var(--tbd-ink);border-color:transparent;font-weight:700}
+.cal .card{display:flex;gap:12px;align-items:flex-start}
+.cal .d{font-weight:800;min-width:52px;color:var(--accent)}
+.cal .who{font-size:.9rem}
+.cal .where{color:var(--muted);font-size:.8rem}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--muted);font-size:.85rem}
+footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
+.pill-note{font-size:.78rem;color:var(--muted);margin:4px 0 10px}
+#err{color:var(--sell-ink);font-size:.85rem;margin:8px 0}
+.count{font-size:.8rem;color:var(--muted);font-weight:400;margin-left:4px}
+</style>
+</head>
+<body>
+<h1>🐱 貓貓持股追蹤</h1>
+<div class="sub" id="updated">載入中…</div>
+<div id="err"></div>
+<div id="alertBanner"></div>
+
+<section>
+  <h2>🔻 要賣的<span class="count" id="cSell"></span></h2>
+  <div class="pill-note">反彈訊號：🔔＝收盤價創近 20 個交易日新高（好賣點）；📈＝距離近月高點 2% 內。</div>
+  <div id="sellList"></div>
+</section>
+
+<section>
+  <h2>👀 觀察中（勾選留或賣）<span class="count" id="cTbd"></span></h2>
+  <div id="tbdList"></div>
+</section>
+
+<section>
+  <h2>💎 長期投資<span class="count" id="cInv"></span></h2>
+  <div id="invList"></div>
+</section>
+
+<section class="cal">
+  <h2>🎁 紀念品領取行事曆</h2>
+  <div id="calList"></div>
+  <details><summary>已過期／已領場次</summary><div id="calPast"></div></details>
+</section>
+
+<footer>
+  資料來源：台灣證交所／櫃買中心公開 API，每個交易日約 14:20 自動更新（顯示為收盤價，非即時）。<br>
+  「截圖損益」為 2026 年中 App 截圖之報酬率，僅供參考；勾選結果只存在這台裝置的瀏覽器。<br>
+  本頁僅供個人參考，非投資建議。
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const bust = '?t=' + Date.now();
+
+function fmtPct(p){
+  if(p === null || p === undefined || isNaN(p)) return '';
+  const cls = p > 0.05 ? 'up' : p < -0.05 ? 'down' : 'flat';
+  return `<span class="${cls}">${p>0?'+':''}${p.toFixed(1)}%</span>`;
+}
+
+function signalOf(code, prices, history){
+  const q = prices.quotes[code];
+  if(!q) return {level:-1, text:'無自動報價', pct:null};
+  const hist = (history[code]||[]).filter(r => r[0] !== q.date);
+  const closes = hist.slice(-20).map(r => r[1]);
+  if(closes.length < 8) return {level:0, text:'資料累積中', pct:null};
+  const high20 = Math.max(...closes);
+  const pct = (q.close/high20 - 1)*100;
+  if(q.close >= high20) return {level:2, text:'🔔 近月新高，可以賣', pct};
+  if(q.close >= high20*0.98) return {level:1, text:'📈 接近前高', pct};
+  return {level:0, text:`距近月高點 ${pct.toFixed(1)}%`, pct};
+}
+
+function decisionOf(s){
+  return localStorage.getItem('decision_'+s.code) || s.decision;
+}
+
+function costLine(s, q){
+  const bits = [];
+  if(s.cost && q){
+    const d = (q.close/s.cost - 1)*100;
+    bits.push(d >= 0 ? `✅ 已回本（成本約 ${s.cost} 元，${d>0?'+':''}${d.toFixed(0)}%）`
+                     : `成本約 ${s.cost} 元，還差 ${(-d).toFixed(0)}% 回本`);
+  } else if(s.snapPct !== null && s.snapPct !== undefined){
+    bits.push(`截圖損益 ${s.snapPct>0?'+':''}${s.snapPct}%`);
+  }
+  return bits.join('');
+}
+
+function stockCard(s, prices, history, withToggle){
+  const q = prices.quotes[s.code];
+  const sig = signalOf(s.code, prices, history);
+  const sigCls = sig.level === 2 ? 'hot' : sig.level === 1 ? 'near' : 'none';
+  const voucher = s.giftType === 'voucher' ? ' <span class="tag voucher">🎫 禮券類</span>' : '';
+  const dec = decisionOf(s);
+  const toggle = withToggle ? `
+    <div class="toggle" data-code="${s.code}">
+      <button data-v="sell" class="${dec==='sell'?'on-sell':''}">賣</button>
+      <button data-v="keep" class="${dec==='keep'?'on-keep':''}">留</button>
+      <button data-v="tbd" class="${dec==='tbd'?'on-tbd':''}">未定</button>
+    </div>` : '';
+  return `<div class="card">
+    <div class="row">
+      <div class="grow">
+        <span class="name">${s.name}<span class="code">${s.code}</span></span>${voucher}
+        <div class="gift">🎁 ${s.gift}${s.pickup ? '｜'+s.pickup : ''}</div>
+        <div class="gift">${costLine(s, q)}</div>
+      </div>
+      <div class="price">${q ? `<b>${q.close}</b><span class="pct">${fmtPct(sig.pct)}</span>` : '<b>—</b>'}</div>
+      <span class="sig ${sigCls}">${sig.text}</span>
+      ${toggle}
+    </div>
+  </div>`;
+}
+
+function renderCalendar(stocks){
+  const up = [], past = [];
+  const today = new Date();
+  stocks.forEach(s => {
+    if(!s.pickup) return;
+    const m = s.pickup.match(/^(\d{1,2})\/(\d{1,2})(?:–(\d{1,2})\/(\d{1,2}))?/);
+    const isPast = /已過/.test(s.pickup);
+    if(!m){ if(!isPast && /線上|APP|台新股代/.test(s.pickup)) up.push({sort:'99-99', s, label:'不限日'}); return; }
+    const mm = +m[1], dd = +m[2];
+    const endMM = m[3] ? +m[3] : mm, endDD = m[4] ? +m[4] : dd;
+    const end = new Date(2026, endMM-1, endDD, 23, 59);
+    const item = {sort:`${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}`, s, label:`${mm}/${dd}${m[3]||m[4]?'起':''}`};
+    (isPast || end < today) ? past.push(item) : up.push(item);
+  });
+  up.sort((a,b) => a.sort.localeCompare(b.sort));
+  past.sort((a,b) => a.sort.localeCompare(b.sort));
+  const row = i => `<div class="card"><div class="d">${i.label}</div>
+     <div><div class="who">${i.s.name}<span class="code">${i.s.code}</span>｜${i.s.gift}</div>
+     <div class="where">${i.s.pickup}</div></div></div>`;
+  $('calList').innerHTML = up.length ? up.map(row).join('') : '<div class="card">近期沒有要領的紀念品 🎉</div>';
+  $('calPast').innerHTML = past.map(row).join('');
+}
+
+async function main(){
+  try{
+    const [holdings, prices, history] = await Promise.all([
+      fetch('data/holdings.json'+bust).then(r=>r.json()),
+      fetch('data/prices.json'+bust).then(r=>r.json()),
+      fetch('data/history.json'+bust).then(r=>r.json()),
+    ]);
+    $('updated').textContent = `股價更新：${prices.updated}（收盤資料）`;
+
+    const stocks = holdings.stocks;
+    const groups = {sell:[], tbd:[], keep:[], invest:[]};
+    stocks.forEach(s => {
+      const d = decisionOf(s);
+      (groups[d] || groups.tbd).push(s);
+    });
+
+    const bySignal = (a,b) => signalOf(b.code,prices,history).level - signalOf(a.code,prices,history).level;
+    groups.sell.sort(bySignal);
+    groups.tbd.sort(bySignal);
+
+    const hot = groups.sell.filter(s => signalOf(s.code,prices,history).level === 2);
+    $('alertBanner').innerHTML = hot.length
+      ? `<div class="banner">🔔 <b>${hot.map(s=>s.name).join('、')}</b> 現在在近月高點，是不錯的賣出時機！</div>`
+      : `<div class="banner quiet">目前「要賣的」都還沒反彈到近月高點，先不用動作。</div>`;
+
+    $('sellList').innerHTML = groups.sell.map(s => stockCard(s,prices,history,true)).join('');
+    $('tbdList').innerHTML = [...groups.tbd, ...groups.keep.map(s=>s)].map(s => stockCard(s,prices,history,true)).join('');
+    $('invList').innerHTML = groups.invest.map(s => stockCard(s,prices,history,false)).join('');
+    $('cSell').textContent = `（${groups.sell.length} 檔）`;
+    $('cTbd').textContent = `（${groups.tbd.length + groups.keep.length} 檔）`;
+    $('cInv').textContent = `（${groups.invest.length} 檔）`;
+
+    renderCalendar(stocks);
+
+    document.querySelectorAll('.toggle').forEach(t => {
+      t.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if(!btn) return;
+        localStorage.setItem('decision_'+t.dataset.code, btn.dataset.v);
+        main();
+      });
+    });
+  }catch(e){
+    $('err').textContent = '資料載入失敗，請稍後重新整理。' + e;
+  }
+}
+main();
+</script>
+</body>
+</html>
