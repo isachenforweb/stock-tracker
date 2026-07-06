@@ -294,7 +294,8 @@ async function main(){
     const stocks = holdings.stocks;
     const groups = {sell:[], tbd:[], keep:[], invest:[]};
     stocks.forEach(s => {
-      const d = decisionOf(s);
+      let d = decisionOf(s);
+      if(giftStatusOf(s.code) === 'skip') d = 'sell';   // 放棄紀念品 → 自動歸到「要賣的」
       (groups[d] || groups.tbd).push(s);
     });
 
