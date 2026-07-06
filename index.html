@@ -55,6 +55,12 @@ h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
 .cal .d{font-weight:800;min-width:52px;color:var(--accent)}
 .cal .who{font-size:.9rem}
 .cal .where{color:var(--muted);font-size:.8rem}
+.cal .calbody{flex:1;min-width:120px}
+.cal .toggle{flex-wrap:wrap;justify-content:flex-end}
+.cal .card.done{opacity:.62}
+.cal .card.done .d{color:var(--keep-ink)}
+.cal .card.skip{opacity:.45}
+.cal .card.skip .who{text-decoration:line-through}
 details{margin-top:8px}
 summary{cursor:pointer;color:var(--muted);font-size:.85rem}
 footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
@@ -100,8 +106,9 @@ footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
 
 <section class="cal">
   <h2>🎁 紀念品領取行事曆</h2>
+  <div class="pill-note">領到後點「✅ 已領」，不想要點「✕ 放棄」，該項目會自動收到下面。</div>
   <div id="calList"></div>
-  <details><summary>已過期／已領場次</summary><div id="calPast"></div></details>
+  <details><summary>已過期／已領／放棄</summary><div id="calPast"></div></details>
 </section>
 
 <footer>
@@ -226,6 +233,8 @@ function stockCard(s, prices, history, withToggle){
   </div>`;
 }
 
+function giftStatusOf(code){ return localStorage.getItem('gift_'+code) || 'wait'; }
+
 function renderCalendar(stocks){
   const up = [], past = [];
   const today = new Date();
@@ -233,20 +242,35 @@ function renderCalendar(stocks){
     if(!s.pickup) return;
     const m = s.pickup.match(/^(\d{1,2})\/(\d{1,2})(?:–(\d{1,2})\/(\d{1,2}))?/);
     const isPast = /已過/.test(s.pickup);
-    if(!m){ if(!isPast && /線上|APP|台新股代/.test(s.pickup)) up.push({sort:'99-99', s, label:'不限日'}); return; }
+    const done = giftStatusOf(s.code) !== 'wait';   // 已領或放棄 → 收到下面收合區
+    if(!m){
+      const online = /線上|APP|台新股代/.test(s.pickup) && !isPast;
+      if(done) past.push({sort:'99-99', s, label: online ? '不限日' : '已處理'});
+      else if(online) up.push({sort:'99-99', s, label:'不限日'});
+      return;
+    }
     const mm = +m[1], dd = +m[2];
     const endMM = m[3] ? +m[3] : mm, endDD = m[4] ? +m[4] : dd;
     const end = new Date(2026, endMM-1, endDD, 23, 59);
     const item = {sort:`${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}`, s, label:`${mm}/${dd}${m[3]||m[4]?'起':''}`};
-    (isPast || end < today) ? past.push(item) : up.push(item);
+    (done || isPast || end < today) ? past.push(item) : up.push(item);
   });
   up.sort((a,b) => a.sort.localeCompare(b.sort));
   past.sort((a,b) => a.sort.localeCompare(b.sort));
-  const row = i => `<div class="card"><div class="d">${i.label}</div>
-     <div><div class="who">${i.s.name}<span class="code">${i.s.code}</span>｜${i.s.gift}</div>
-     <div class="where">${i.s.pickup}</div></div></div>`;
+  const row = i => {
+    const st = giftStatusOf(i.s.code);
+    const cls = st==='got' ? ' done' : st==='skip' ? ' skip' : '';
+    const tg = `<div class="toggle" data-kind="gift" data-code="${i.s.code}">
+        <button data-v="got" class="${st==='got'?'on-keep':''}">✅ 已領</button>
+        <button data-v="wait" class="${st==='wait'?'on-tbd':''}">未領</button>
+        <button data-v="skip" class="${st==='skip'?'on-sell':''}">✕ 放棄</button>
+      </div>`;
+    return `<div class="card${cls}"><div class="d">${i.label}</div>
+       <div class="calbody"><div class="who">${i.s.name}<span class="code">${i.s.code}</span>｜${i.s.gift}</div>
+       <div class="where">${i.s.pickup}</div></div>${tg}</div>`;
+  };
   $('calList').innerHTML = up.length ? up.map(row).join('') : '<div class="card">近期沒有要領的紀念品 🎉</div>';
-  $('calPast').innerHTML = past.map(row).join('');
+  $('calPast').innerHTML = past.length ? past.map(row).join('') : '<div class="card" style="opacity:.6">還沒有已領／放棄／過期的項目</div>';
 }
 
 document.getElementById('resetBtn').addEventListener('click', e => {
@@ -297,7 +321,8 @@ async function main(){
       t.addEventListener('click', e => {
         const btn = e.target.closest('button');
         if(!btn) return;
-        localStorage.setItem('decision_'+t.dataset.code, btn.dataset.v);
+        const key = (t.dataset.kind === 'gift' ? 'gift_' : 'decision_') + t.dataset.code;
+        localStorage.setItem(key, btn.dataset.v);
         main();
       });
     });
