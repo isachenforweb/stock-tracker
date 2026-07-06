@@ -55,6 +55,8 @@ def to_float(s):
 def main():
     holdings = json.loads((DATA / "holdings.json").read_text("utf-8"))
     codes = [s["code"] for s in holdings["stocks"]]
+    codes += [w["code"] for w in holdings.get("watchlist", [])]  # 想買觀察清單也一起抓價
+    codes = list(dict.fromkeys(codes))  # 去重、保序（想買清單可能與持股重疊）
 
     twse = {row["Code"]: row for row in fetch_json(TWSE_URL)}
     tpex = {row["SecuritiesCompanyCode"]: row for row in fetch_json(TPEX_URL)}

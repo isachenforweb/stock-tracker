@@ -1,5 +1,5 @@
 {
-  "note": "cost=推估成本(券商A為1股精確推算)；snapPct=2026年中App截圖報酬率(參考用)；decision: sell/keep/tbd/invest",
+  "note": "cost=推估成本(券商A為1股精確推算)；snapPct=2026年中App截圖報酬率(參考用)；decision: sell/keep/tbd/invest；adds=加碼紀錄[{date,shares,price}]；watchlist=想買觀察[{code,name,targetPrice,note}]",
   "screenshotDate": "2026-07-01",
   "stocks": [
     { "code": "0050", "name": "元大台灣50", "account": "Richart", "cost": null, "snapPct": 79.2, "snapVal": 14101, "decision": "invest", "gift": "無（ETF）", "giftType": "none", "pickup": null },
@@ -76,5 +76,6 @@
     { "code": "1103", "name": "嘉泥", "account": "Richart", "cost": null, "snapPct": -63.64, "snapVal": 13, "decision": "tbd", "gift": "飛狼不銹鋼雙飲杯", "giftType": "goods", "pickup": "7/15 群益（敦化南路二段97號B2）" },
     { "code": "8443", "name": "阿瘦", "account": "Richart", "cost": null, "snapPct": -67.74, "snapVal": 11, "decision": "tbd", "gift": "感恩購物金 500 元", "giftType": "voucher", "pickup": "7/22 凱基（重慶南路一段2號）" },
     { "code": "2104", "name": "國際中橡", "account": "Richart", "cost": null, "snapPct": -71.88, "snapVal": 10, "decision": "tbd", "gift": "折疊環保提包", "giftType": "goods", "pickup": null }
-  ]
+  ],
+  "watchlist": []
 }

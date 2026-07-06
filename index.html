@@ -41,6 +41,9 @@ h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
 .sig.hot{background:var(--ring-soft);border:1px solid var(--ring);font-weight:700}
 .sig.near{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .sig.none{color:var(--muted)}
+.sig.buy{background:var(--keep);color:var(--keep-ink);font-weight:700}
+.adds{color:var(--keep-ink);font-size:.82rem;margin-top:2px}
+.adds .detail{color:var(--muted)}
 .tag{font-size:.72rem;border-radius:6px;padding:1px 6px;background:var(--tbd);color:var(--tbd-ink)}
 .tag.voucher{background:var(--sell);color:var(--sell-ink)}
 .toggle{display:flex;gap:4px}
@@ -87,6 +90,12 @@ footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
 <section>
   <h2>💎 長期投資<span class="count" id="cInv"></span></h2>
   <div id="invList"></div>
+</section>
+
+<section>
+  <h2>🛒 想買觀察<span class="count" id="cWatch"></span></h2>
+  <div class="pill-note">還沒買、在等進場價的股票。現價 ≤ 目標價 → 🟢 到價，可以考慮進場（只是提醒，不是叫你買）。</div>
+  <div id="watchList"></div>
 </section>
 
 <section class="cal">
@@ -141,6 +150,55 @@ function costLine(s, q){
   return bits.join('');
 }
 
+function addsLine(s, q){
+  if(!s.adds || !s.adds.length) return '';
+  const totShares = s.adds.reduce((a,b) => a + (b.shares||0), 0);
+  const totCost = s.adds.reduce((a,b) => a + (b.shares||0)*(b.price||0), 0);
+  const avg = totShares ? totCost/totShares : null;
+  let pl = '';
+  if(avg && q){
+    const d = (q.close/avg - 1)*100;
+    pl = `，現價${d>=0?'賺':'虧'} ${Math.abs(d).toFixed(1)}%`;
+  }
+  const detail = s.adds.map(a => `${a.date} +${a.shares}股 @${a.price}`).join('、');
+  return `<div class="adds">➕ 加碼 ${totShares} 股${avg ? `（均價 ${avg.toFixed(2)}${pl}）` : ''}
+    <span class="detail">${detail}</span></div>`;
+}
+
+function watchCard(w, prices){
+  const q = prices.quotes[w.code];
+  let sigCls = 'none', sigText = '📊 查無報價', pctLine = '';
+  if(q){
+    const t = w.targetPrice;
+    if(t == null){ sigCls='none'; sigText='未設目標價'; }
+    else if(q.close <= t){ sigCls='buy'; sigText='🟢 到價，可考慮'; }
+    else if(q.close <= t*1.03){ sigCls='near'; sigText='🟡 快到了'; }
+    else { sigCls='none'; sigText='⚪ 還太貴，等等'; }
+    if(t != null){
+      const diff = (q.close/t - 1)*100;
+      pctLine = `<span class="pct">目標 ${t}｜現價${diff<=0?'低':'高'} ${Math.abs(diff).toFixed(1)}%</span>`;
+    }
+  }
+  return `<div class="card">
+    <div class="row">
+      <div class="grow">
+        <span class="name">${w.name}<span class="code">${w.code}</span></span>
+        ${w.note ? `<div class="gift">📝 ${w.note}</div>` : ''}
+      </div>
+      <div class="price">${q ? `<b>${q.close}</b>${pctLine}` : '<b>—</b>'}</div>
+      <span class="sig ${sigCls}">${sigText}</span>
+    </div>
+  </div>`;
+}
+
+function renderWatchlist(watchlist, prices){
+  const wl = watchlist || [];
+  $('cWatch').textContent = wl.length ? `（${wl.length} 檔）` : '';
+  $('watchList').innerHTML = wl.length
+    ? wl.map(w => watchCard(w, prices)).join('')
+    : '<div class="card" style="color:var(--muted)">還沒有想買的股票。跟貓貓助手說「加 XX 到想買清單，目標價 YY」就會出現在這裡。</div>';
+}
+
 function stockCard(s, prices, history, withToggle){
   const q = prices.quotes[s.code];
   const sig = signalOf(s.code, prices, history);
@@ -159,6 +217,7 @@ function stockCard(s, prices, history, withToggle){
         <span class="name">${s.name}<span class="code">${s.code}</span></span>${voucher}
         <div class="gift">🎁 ${s.gift}${s.pickup ? '｜'+s.pickup : ''}</div>
         <div class="gift">${costLine(s, q)}</div>
+        ${addsLine(s, q)}
       </div>
       <div class="price">${q ? `<b>${q.close}</b><span class="pct">${fmtPct(sig.pct)}</span>` : '<b>—</b>'}</div>
       <span class="sig ${sigCls}">${sig.text}</span>
@@ -231,6 +290,7 @@ async function main(){
     $('cTbd').textContent = `（${groups.tbd.length + groups.keep.length} 檔）`;
     $('cInv').textContent = `（${groups.invest.length} 檔）`;
 
+    renderWatchlist(holdings.watchlist, prices);
     renderCalendar(stocks);
 
     document.querySelectorAll('.toggle').forEach(t => {
