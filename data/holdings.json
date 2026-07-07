@@ -55,7 +55,7 @@
     { "code": "1605", "name": "華新", "account": "Richart", "cost": null, "snapPct": -37.04, "snapVal": 35, "decision": "tbd", "gift": "FDK 三號鹼性電池 4 入", "giftType": "goods", "pickup": "5/25–5/27 內湖（行善路398號9樓）" },
     { "code": "3716", "name": "中化控股", "account": "Richart", "cost": null, "snapPct": -37.74, "snapVal": 34, "decision": "tbd", "gift": "綠的抗菌潔手慕斯", "giftType": "goods", "pickup": "5/27–5/29 富邦（許昌街17號11樓）" },
     { "code": "2887", "name": "台新新光金", "account": "Richart", "cost": null, "snapPct": -27.27, "snapVal": 33, "decision": "tbd", "gift": "矽膠隔熱餐墊二入", "giftType": "goods", "pickup": "8/12 台新（建國北路一段96號B1）" },
-    { "code": "1734", "name": "杏輝", "account": "Richart", "cost": null, "snapPct": -39.22, "snapVal": 32, "decision": "tbd", "gift": "等值紀念品", "giftType": "goods", "pickup": "6/26–6/30 永豐金（重慶南路一段2號側門）" },
+    { "code": "1734", "name": "杏輝", "account": "Richart", "cost": null, "snapPct": -39.22, "snapVal": 32, "decision": "tbd", "gift": "茯苓善補B群膠囊 20 粒/瓶", "giftType": "goods", "pickup": "6/26–6/30 永豐金（重慶南路一段2號側門）" },
     { "code": "2352", "name": "佳世達", "account": "Richart", "cost": null, "snapPct": -29.55, "snapVal": 32, "decision": "tbd", "gift": "史努比陶瓷雙碗組", "giftType": "goods", "pickup": "7/27–7/29 台新（建國北路一段96號B1）" },
     { "code": "1733", "name": "五鼎", "account": "Richart", "cost": null, "snapPct": -42.86, "snapVal": 29, "decision": "tbd", "gift": "積木封口夾", "giftType": "goods", "pickup": "7/23–7/27 台新（建國北路一段96號B1）" },
     { "code": "8215", "name": "明基材", "account": "Richart", "cost": null, "snapPct": -34.88, "snapVal": 29, "decision": "tbd", "gift": "護妍天使保養限定組", "giftType": "goods", "pickup": "6/26–6/30 台新（建國北路一段96號B1）" },

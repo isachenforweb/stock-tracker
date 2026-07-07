@@ -61,6 +61,9 @@ h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
 .cal .card.done .d{color:var(--keep-ink)}
 .cal .card.skip{opacity:.45}
 .cal .card.skip .who{text-decoration:line-through}
+.gchip{display:inline-block;margin-top:4px;font-size:.72rem;border-radius:6px;padding:1px 7px;font-weight:600}
+.gchip.got{background:var(--keep);color:var(--keep-ink)}
+.gchip.skip{background:var(--sell);color:var(--sell-ink)}
 details{margin-top:8px}
 summary{cursor:pointer;color:var(--muted);font-size:.85rem}
 footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
@@ -260,14 +263,21 @@ function renderCalendar(stocks){
   const row = i => {
     const st = giftStatusOf(i.s.code);
     const cls = st==='got' ? ' done' : st==='skip' ? ' skip' : '';
+    // 只顯示「會改變狀態」的按鈕，永遠不放目前狀態那顆（避免點了沒反應）
+    const actions = [
+      {v:'got',  label:'✅ 已領'},
+      {v:'skip', label:'✕ 放棄'},
+      {v:'wait', label:'↩︎ 改未領'},
+    ].filter(a => a.v !== st);
     const tg = `<div class="toggle" data-kind="gift" data-code="${i.s.code}">
-        <button data-v="got" class="${st==='got'?'on-keep':''}">✅ 已領</button>
-        <button data-v="wait" class="${st==='wait'?'on-tbd':''}">未領</button>
-        <button data-v="skip" class="${st==='skip'?'on-sell':''}">✕ 放棄</button>
+        ${actions.map(a => `<button data-v="${a.v}">${a.label}</button>`).join('')}
       </div>`;
+    const chip = st==='got'  ? '<span class="gchip got">✅ 已領</span>'
+               : st==='skip' ? '<span class="gchip skip">✕ 放棄</span>'
+               : '';
     return `<div class="card${cls}"><div class="d">${i.label}</div>
        <div class="calbody"><div class="who">${i.s.name}<span class="code">${i.s.code}</span>｜${i.s.gift}</div>
-       <div class="where">${i.s.pickup}</div></div>${tg}</div>`;
+       <div class="where">${i.s.pickup}</div>${chip}</div>${tg}</div>`;
   };
   $('calList').innerHTML = up.length ? up.map(row).join('') : '<div class="card">近期沒有要領的紀念品 🎉</div>';
   $('calPast').innerHTML = past.length ? past.map(row).join('') : '<div class="card" style="opacity:.6">還沒有已領／放棄／過期的項目</div>';
