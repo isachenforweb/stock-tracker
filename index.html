@@ -50,7 +50,7 @@ h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
 .toggle button{font-size:.75rem;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:3px 10px;cursor:pointer}
 .toggle button.on-sell{background:var(--sell);color:var(--sell-ink);border-color:transparent;font-weight:700}
 .toggle button.on-keep{background:var(--keep);color:var(--keep-ink);border-color:transparent;font-weight:700}
-.toggle button.on-tbd{background:var(--tbd);color:var(--tbd-ink);border-color:transparent;font-weight:700}
+.toggle button.on-tbd{background:var(--accent-soft);color:var(--accent);border-color:transparent;font-weight:700}
 .cal .card{display:flex;gap:12px;align-items:flex-start}
 .cal .d{font-weight:800;min-width:52px;color:var(--accent)}
 .cal .who{font-size:.9rem}
@@ -61,9 +61,6 @@ h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
 .cal .card.done .d{color:var(--keep-ink)}
 .cal .card.skip{opacity:.45}
 .cal .card.skip .who{text-decoration:line-through}
-.gchip{display:inline-block;margin-top:4px;font-size:.72rem;border-radius:6px;padding:1px 7px;font-weight:600}
-.gchip.got{background:var(--keep);color:var(--keep-ink)}
-.gchip.skip{background:var(--sell);color:var(--sell-ink)}
 details{margin-top:8px}
 summary{cursor:pointer;color:var(--muted);font-size:.85rem}
 footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
@@ -109,7 +106,7 @@ footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
 
 <section class="cal">
   <h2>🎁 紀念品領取行事曆</h2>
-  <div class="pill-note">領到後點「✅ 已領」，不想要點「✕ 放棄」，該項目會自動收到下面。</div>
+  <div class="pill-note">🕓 未領＝還沒空去領、但還想要（留著）｜✅ 已領＝拿到了｜✕ 放棄＝紀念品沒誠意、以後不領→自動歸到「要賣的」。已領／放棄會收到下面收合區。</div>
   <div id="calList"></div>
   <details><summary>已過期／已領／放棄</summary><div id="calPast"></div></details>
 </section>
@@ -263,21 +260,15 @@ function renderCalendar(stocks){
   const row = i => {
     const st = giftStatusOf(i.s.code);
     const cls = st==='got' ? ' done' : st==='skip' ? ' skip' : '';
-    // 只顯示「會改變狀態」的按鈕，永遠不放目前狀態那顆（避免點了沒反應）
-    const actions = [
-      {v:'got',  label:'✅ 已領'},
-      {v:'skip', label:'✕ 放棄'},
-      {v:'wait', label:'↩︎ 改未領'},
-    ].filter(a => a.v !== st);
+    // 三顆狀態鈕都保留；目前狀態那顆會明顯高亮（未領=藍、已領=綠、放棄=紅）
     const tg = `<div class="toggle" data-kind="gift" data-code="${i.s.code}">
-        ${actions.map(a => `<button data-v="${a.v}">${a.label}</button>`).join('')}
+        <button data-v="got" class="${st==='got'?'on-keep':''}">✅ 已領</button>
+        <button data-v="wait" class="${st==='wait'?'on-tbd':''}">🕓 未領</button>
+        <button data-v="skip" class="${st==='skip'?'on-sell':''}">✕ 放棄</button>
       </div>`;
-    const chip = st==='got'  ? '<span class="gchip got">✅ 已領</span>'
-               : st==='skip' ? '<span class="gchip skip">✕ 放棄</span>'
-               : '';
     return `<div class="card${cls}"><div class="d">${i.label}</div>
        <div class="calbody"><div class="who">${i.s.name}<span class="code">${i.s.code}</span>｜${i.s.gift}</div>
-       <div class="where">${i.s.pickup}</div>${chip}</div>${tg}</div>`;
+       <div class="where">${i.s.pickup}</div></div>${tg}</div>`;
   };
   $('calList').innerHTML = up.length ? up.map(row).join('') : '<div class="card">近期沒有要領的紀念品 🎉</div>';
   $('calPast').innerHTML = past.length ? past.map(row).join('') : '<div class="card" style="opacity:.6">還沒有已領／放棄／過期的項目</div>';
