@@ -67,11 +67,29 @@ footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
 .pill-note{font-size:.78rem;color:var(--muted);margin:4px 0 10px}
 #err{color:var(--sell-ink);font-size:.85rem;margin:8px 0}
 .count{font-size:.8rem;color:var(--muted);font-weight:400;margin-left:4px}
+#gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px}
+.gatebox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 24px;max-width:320px;width:100%;text-align:center}
+.gatetitle{font-size:1.25rem;font-weight:800;margin-bottom:4px}
+.gatesub{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+#gatePw{width:100%;padding:12px;font-size:1.15rem;text-align:center;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);letter-spacing:.35em;margin-bottom:12px}
+#gateBtn{width:100%;padding:12px;font-size:1rem;font-weight:700;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+#gateErr{color:var(--sell-ink);font-size:.85rem;margin-top:10px;min-height:1.2em}
+body.locked{overflow:hidden}
+.lock-link{color:var(--muted);font-size:.78rem;margin-left:10px}
 </style>
 </head>
 <body>
+<div id="gate">
+  <div class="gatebox">
+    <div class="gatetitle">🐱 貓貓持股追蹤</div>
+    <div class="gatesub">請輸入密碼</div>
+    <input id="gatePw" type="password" inputmode="numeric" autocomplete="off" placeholder="密碼">
+    <button id="gateBtn">進入</button>
+    <div id="gateErr"></div>
+  </div>
+</div>
 <h1>🐱 貓貓持股追蹤</h1>
-<div class="sub" id="updated">載入中…　<a href="#" id="resetBtn" style="color:var(--accent)">↺ 恢復預設分類</a></div>
+<div class="sub"><span id="updated">載入中…</span>　<a href="#" id="resetBtn" style="color:var(--accent)">↺ 恢復預設分類</a><a href="#" id="lockBtn" class="lock-link">🔒 鎖定</a></div>
 <div id="err"></div>
 <div id="alertBanner"></div>
 
@@ -332,7 +350,36 @@ async function main(){
     $('err').textContent = '資料載入失敗，請稍後重新整理。' + e;
   }
 }
-main();
+
+// ── 密碼門（只放雜湊，原始碼看不到密碼本人）──────────────
+const PW_HASH = '563800178f72bf2e0bef7ca00f742a79c007867f9c68fe57bc384471226ee93d';
+async function sha256hex(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+function unlock(){
+  $('gate').style.display = 'none';
+  document.body.classList.remove('locked');
+  main();
+}
+(function initGate(){
+  if(localStorage.getItem('gate_ok') === PW_HASH){ unlock(); return; }
+  document.body.classList.add('locked');
+  const inp = $('gatePw'), errEl = $('gateErr');
+  const submit = async () => {
+    const h = await sha256hex(inp.value.trim());
+    if(h === PW_HASH){ localStorage.setItem('gate_ok', PW_HASH); unlock(); }
+    else { errEl.textContent = '密碼不對，再試一次'; inp.value = ''; inp.focus(); }
+  };
+  $('gateBtn').addEventListener('click', submit);
+  inp.addEventListener('keydown', e => { if(e.key === 'Enter') submit(); });
+  inp.focus();
+})();
+$('lockBtn').addEventListener('click', e => {
+  e.preventDefault();
+  localStorage.removeItem('gate_ok');
+  location.reload();
+});
 </script>
 </body>
 </html>
