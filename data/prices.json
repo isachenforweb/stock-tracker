@@ -1,431 +1,431 @@
 {
- "updated": "2026-07-30 17:08",
+ "updated": "2026-07-31 17:21",
  "quotes": {
   "0050": {
-   "close": 93.5,
+   "close": 102.85,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "006208": {
-   "close": 214.4,
+   "close": 235.35,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "00935": {
-   "close": 47.9,
+   "close": 52.65,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2330": {
-   "close": 2205.0,
+   "close": 2425.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1305": {
-   "close": 10.8,
+   "close": 11.1,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1312": {
-   "close": 10.9,
+   "close": 11.3,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2206": {
-   "close": 64.7,
+   "close": 64.8,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2316": {
-   "close": 129.5,
+   "close": 142.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2329": {
-   "close": 37.55,
+   "close": 40.55,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2504": {
-   "close": 31.85,
+   "close": 31.2,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2603": {
-   "close": 201.0,
+   "close": 204.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2727": {
-   "close": 232.0,
+   "close": 234.5,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3059": {
-   "close": 36.25,
+   "close": 38.3,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3484": {
-   "close": 45.7,
+   "close": 48.0,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3535": {
-   "close": 70.1,
+   "close": 77.1,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "4163": {
-   "close": 122.0,
+   "close": 125.5,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "4543": {
-   "close": 29.25,
+   "close": 30.3,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "4960": {
-   "close": 17.95,
+   "close": 19.2,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "5263": {
-   "close": 92.2,
+   "close": 93.4,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "6169": {
-   "close": 13.45,
+   "close": 13.55,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8050": {
-   "close": 54.8,
+   "close": 54.6,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8074": {
-   "close": 45.0,
+   "close": 49.5,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8935": {
-   "close": 16.9,
+   "close": 17.05,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3711": {
-   "close": 505.0,
+   "close": 555.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8028": {
-   "close": 227.5,
+   "close": 245.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2317": {
-   "close": 229.5,
+   "close": 250.5,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3227": {
-   "close": 181.0,
+   "close": 192.0,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3006": {
-   "close": 164.0,
+   "close": 180.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "5483": {
-   "close": 152.5,
+   "close": 157.0,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2303": {
-   "close": 110.0,
+   "close": 121.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1514": {
-   "close": 92.0,
+   "close": 97.6,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3213": {
-   "close": 118.0,
+   "close": 123.0,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "9958": {
-   "close": 101.5,
+   "close": 104.5,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1707": {
-   "close": 91.1,
+   "close": 89.3,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3706": {
-   "close": 84.1,
+   "close": 87.4,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2535": {
-   "close": 86.4,
+   "close": 88.2,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "5328": {
-   "close": 58.3,
+   "close": 63.8,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2363": {
-   "close": 44.8,
+   "close": 49.2,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2891": {
-   "close": 63.1,
+   "close": 64.9,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2006": {
-   "close": 73.4,
+   "close": 74.6,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "5309": {
-   "close": 44.8,
+   "close": 49.25,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3714": {
-   "close": 45.55,
+   "close": 48.05,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "6150": {
-   "close": 52.1,
+   "close": 55.9,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "5258": {
-   "close": 49.0,
+   "close": 51.6,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3306": {
-   "close": 42.3,
+   "close": 43.75,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8163": {
-   "close": 28.6,
+   "close": 30.6,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2880": {
-   "close": 42.65,
+   "close": 43.7,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1605": {
-   "close": 28.6,
+   "close": 31.45,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3716": {
-   "close": 32.95,
+   "close": 32.8,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2887": {
-   "close": 33.15,
+   "close": 35.95,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1734": {
    "close": 31.7,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2352": {
-   "close": 26.45,
+   "close": 27.35,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1733": {
-   "close": 31.75,
+   "close": 31.3,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8215": {
-   "close": 21.7,
+   "close": 22.7,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2883": {
-   "close": 28.95,
+   "close": 30.85,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3041": {
-   "close": 20.15,
+   "close": 21.55,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2371": {
-   "close": 23.5,
+   "close": 24.3,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "4168": {
-   "close": 22.05,
+   "close": 22.25,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1101": {
-   "close": 24.05,
+   "close": 24.3,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3027": {
-   "close": 17.5,
+   "close": 18.35,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3038": {
-   "close": 19.85,
+   "close": 20.8,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3360": {
-   "close": 14.9,
+   "close": 15.7,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1414": {
-   "close": 18.1,
+   "close": 19.0,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2002": {
    "close": 18.95,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2405": {
-   "close": 14.8,
+   "close": 15.8,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8011": {
-   "close": 15.6,
+   "close": 16.45,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1432": {
-   "close": 15.05,
+   "close": 15.1,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "3625": {
-   "close": 14.8,
+   "close": 16.25,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "1103": {
-   "close": 13.15,
+   "close": 13.1,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "8443": {
-   "close": 11.45,
+   "close": 11.5,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   },
   "2104": {
    "close": 9.65,
    "mavg": null,
    "market": "twse",
-   "date": "2026-07-30"
+   "date": "2026-07-31"
   }
  }
 }
