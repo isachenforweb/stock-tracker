@@ -23,7 +23,7 @@
     { "code": "4543", "name": "萬在", "account": "券商A", "cost": 33.0, "snapPct": 6.06, "snapVal": null, "decision": "tbd", "gift": "安妮兔矽膠鍋墊", "giftType": "goods", "pickup": "5/26–5/28 台新（建國北路一段96號B1）" },
     { "code": "4960", "name": "誠美材", "account": "券商A", "cost": 26.0, "snapPct": -11.54, "snapVal": null, "decision": "sell", "gift": "統一超商 100 元商品卡", "giftType": "voucher", "pickup": "8/7–8/11 兆豐（忠孝東路二段95號1樓）" },
     { "code": "5263", "name": "智崴", "account": "券商A", "cost": 99.0, "snapPct": -1.01, "snapVal": null, "decision": "tbd", "gift": "體驗優惠券", "giftType": "voucher", "pickup": "6/15–6/17 台新（建國北路一段96號B1）" },
-    { "code": "6169", "name": "昱泉", "account": "券商A", "cost": 18.0, "snapPct": -27.78, "snapVal": null, "decision": "keep", "gift": "清新植感草本皂", "giftType": "goods", "pickup": "8/17–8/19 康和（基隆路一段176號B1）", "giftStatus": "skip", "giftStatusDate": "2026-08-19" },
+    { "code": "6169", "name": "昱泉", "account": "券商A", "cost": 18.0, "snapPct": -27.78, "snapVal": null, "decision": "tbd", "gift": "清新植感草本皂", "giftType": "goods", "pickup": "8/17–8/19 康和（基隆路一段176號B1）", "giftStatus": "skip", "giftStatusDate": "2026-08-19" },
     { "code": "8050", "name": "廣積", "account": "券商A", "cost": 43.0, "snapPct": 18.6, "snapVal": null, "decision": "tbd", "gift": "康寧耐熱玻璃烤盤 7 吋", "giftType": "goods", "pickup": "7/6–7/8 台新（建國北路一段96號B1）" },
     { "code": "8074", "name": "鉅橡", "account": "券商A", "cost": 63.0, "snapPct": 4.76, "snapVal": null, "decision": "tbd", "gift": "電木梳 1 支", "giftType": "goods", "pickup": "4/29 股東會已結束（台南）｜買進時已錯過電子投票期，未取得領取資格" },
     { "code": "8935", "name": "邦泰", "account": "券商A", "cost": 19.0, "snapPct": 10.53, "snapVal": null, "decision": "sell", "gift": "7-11 商品卡 50 元", "giftType": "voucher", "pickup": "6/25 群益（敦化南路二段97號B2）" },

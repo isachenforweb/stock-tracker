@@ -379,8 +379,7 @@ async function main(){
     const groups = {sell:[], tbd:[], keep:[], invest:[]};
     stocks.forEach(s => {
       let d = decisionOf(s);
-      // 放棄紀念品 → 自動歸到「要賣的」；但明確按過「留」就尊重她的選擇（只是不領紀念品、股票還要）
-      if(giftStatusOf(s.code) === 'skip' && d !== 'keep') d = 'sell';
+      if(giftStatusOf(s.code) === 'skip') d = 'sell';   // 放棄紀念品 → 自動歸到「要賣的」（貓貓的規則：放棄＝賣）
       (groups[d] || groups.tbd).push(s);
     });
 
