@@ -61,6 +61,9 @@ h2{font-size:1.05rem;margin:22px 0 8px;display:flex;align-items:center;gap:6px}
 .cal .card.done .d{color:var(--keep-ink)}
 .cal .card.skip{opacity:.45}
 .cal .card.skip .who{text-decoration:line-through}
+.card.soldcard{opacity:.72}
+.card.soldcard .name{text-decoration:line-through}
+.soldline{font-size:.82rem;margin-top:2px}
 details{margin-top:8px}
 summary{cursor:pointer;color:var(--muted);font-size:.85rem}
 footer{color:var(--muted);font-size:.75rem;margin:26px 0 10px}
@@ -122,6 +125,12 @@ body.locked{overflow:hidden}
   <div id="watchList"></div>
 </section>
 
+<section>
+  <h2>✅ 已賣出<span class="count" id="cSold"></span></h2>
+  <div class="pill-note">已經賣掉的股票，留著當紀錄用。不會再出現在上面的清單和紀念品行事曆。</div>
+  <details><summary>展開／收起已賣出紀錄</summary><div id="soldList"></div></details>
+</section>
+
 <section class="cal">
   <h2>🎁 紀念品領取行事曆</h2>
   <div class="pill-note">🕓 未領＝還沒空去領、但還想要（留著）｜✅ 已領＝拿到了｜✕ 放棄＝紀念品沒誠意、以後不領→自動歸到「要賣的」。已領／放棄會收到下面收合區。</div>
@@ -160,7 +169,51 @@ function signalOf(code, prices, history){
 }
 
 function decisionOf(s){
+  if(s.sold) return 'sold';                       // 已賣出：不吃本機的賣／留／未定設定
   return localStorage.getItem('decision_'+s.code) || s.decision;
+}
+
+// 推估每股成本：券商A有精確成本就用它，Richart 用截圖市值＋報酬率反推
+function estUnitCost(s){
+  if(s.cost) return s.cost;
+  const shares = s.sold && s.sold.shares;
+  if(shares && s.snapVal != null && s.snapPct != null && s.snapPct > -100){
+    return (s.snapVal/shares)/(1 + s.snapPct/100);
+  }
+  return null;
+}
+
+function soldCard(s){
+  const sd = s.sold;
+  const proceeds = (sd.shares||0) * (sd.price||0);
+  const unit = estUnitCost(s);
+  let pl = '';
+  if(unit){
+    const cost = unit * (sd.shares||0);
+    const diff = proceeds - cost;
+    const pct = cost ? (proceeds/cost - 1)*100 : null;
+    // 台股慣例：賺=紅（up）、賠=綠（down）
+    pl = `<div class="soldline">推估成本約 ${unit.toFixed(1)} 元／股 →
+      <b class="${diff>=0?'up':'down'}">實現${diff>=0?'獲利':'虧損'} ${Math.abs(diff).toFixed(0)} 元${pct!=null?`（${pct>0?'+':''}${pct.toFixed(1)}%）`:''}</b>
+      <span style="color:var(--muted)">※ 成本為推估值，非實際對帳單</span></div>`;
+  }
+  return `<div class="card soldcard">
+    <div class="row">
+      <div class="grow">
+        <span class="name">${s.name}<span class="code">${s.code}</span></span>
+        <div class="gift">💰 ${sd.date} 賣出 ${sd.shares} 股 @ ${sd.price} 元（共 ${proceeds.toFixed(0)} 元）</div>
+        ${pl}
+        <div class="gift">🎁 ${s.gift}${s.pickup ? '｜'+s.pickup : ''}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderSold(soldStocks){
+  $('cSold').textContent = soldStocks.length ? `（${soldStocks.length} 檔）` : '';
+  $('soldList').innerHTML = soldStocks.length
+    ? soldStocks.map(soldCard).join('')
+    : '<div class="card" style="color:var(--muted)">還沒有賣出紀錄。</div>';
 }
 
 function costLine(s, q){
@@ -310,7 +363,8 @@ async function main(){
     ]);
     $('updated').textContent = `股價更新：${prices.updated}（收盤資料）`;
 
-    const stocks = holdings.stocks;
+    const soldStocks = holdings.stocks.filter(s => s.sold);
+    const stocks = holdings.stocks.filter(s => !s.sold);   // 已賣出的不進買賣清單與行事曆
     const groups = {sell:[], tbd:[], keep:[], invest:[]};
     stocks.forEach(s => {
       let d = decisionOf(s);
@@ -335,6 +389,7 @@ async function main(){
     $('cInv').textContent = `（${groups.invest.length} 檔）`;
 
     renderWatchlist(holdings.watchlist, prices);
+    renderSold(soldStocks);
     renderCalendar(stocks);
 
     document.querySelectorAll('.toggle').forEach(t => {

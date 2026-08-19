@@ -1,5 +1,5 @@
 {
-  "note": "cost=推估成本(券商A為1股精確推算)；snapPct=2026年中App截圖報酬率(參考用)；decision: sell/keep/tbd/invest；adds=加碼紀錄[{date,shares,price}]；watchlist=想買觀察[{code,name,targetPrice,note}]",
+  "note": "cost=推估成本(券商A為1股精確推算)；snapPct=2026年中App截圖報酬率(參考用)；decision: sell/keep/tbd/invest/sold；sold={date,shares,price} 已賣出紀錄（有此欄即歸入「已賣出」區、不再進買賣清單與紀念品行事曆）；adds=加碼紀錄[{date,shares,price}]；watchlist=想買觀察[{code,name,targetPrice,note}]",
   "screenshotDate": "2026-07-01",
   "stocks": [
     { "code": "0050", "name": "元大台灣50", "account": "Richart", "cost": null, "snapPct": 79.2, "snapVal": 14101, "decision": "invest", "gift": "無（ETF）", "giftType": "none", "pickup": null },
@@ -67,7 +67,7 @@
     { "code": "3027", "name": "盛達", "account": "Richart", "cost": null, "snapPct": -50.0, "snapVal": 22, "decision": "sell", "gift": "統一超商現金抵用券 35 元", "giftType": "voucher", "pickup": "5/22–5/26 群益（敦化南路二段97號B2）" },
     { "code": "3038", "name": "全台", "account": "Richart", "cost": null, "snapPct": -53.49, "snapVal": 21, "decision": "tbd", "gift": "證件包", "giftType": "goods", "pickup": "5/20–5/22 元大（敦化南路二段67號B1）" },
     { "code": "3360", "name": "尚立", "account": "Richart", "cost": null, "snapPct": -42.86, "snapVal": 21, "decision": "sell", "gift": "白米或等值產品", "giftType": "goods", "pickup": "7/17–7/21 群益（敦化南路二段97號B2）" },
-    { "code": "1414", "name": "東和", "account": "Richart", "cost": null, "snapPct": -53.85, "snapVal": 19, "decision": "tbd", "gift": "襪子乙雙", "giftType": "goods", "pickup": "7/29–7/31 中信（懷寧街70號）" },
+    { "code": "1414", "name": "東和", "account": "Richart", "cost": null, "snapPct": -53.85, "snapVal": 19, "decision": "sold", "gift": "襪子乙雙", "giftType": "goods", "pickup": "7/29–7/31 中信（懷寧街70號）", "sold": { "date": "2026-08-19", "shares": 1, "price": 19 } },
     { "code": "2002", "name": "中鋼", "account": "Richart", "cost": null, "snapPct": -56.41, "snapVal": 18, "decision": "sell", "gift": "統一超商 50 元商品卡", "giftType": "voucher", "pickup": "7/9 凱基（重慶南路一段2號，領實體卡）" },
     { "code": "2405", "name": "輔信", "account": "Richart", "cost": null, "snapPct": -54.29, "snapVal": 17, "decision": "tbd", "gift": "康寧 Amber 9 吋湯盤", "giftType": "goods", "pickup": "7/2 群益（敦化南路二段97號B2）" },
     { "code": "8011", "name": "台通", "account": "Richart", "cost": null, "snapPct": -60.0, "snapVal": 17, "decision": "tbd", "gift": "野餐墊", "giftType": "goods", "pickup": "7/22 富邦（許昌街17號11樓）" },
