@@ -304,7 +304,17 @@ function stockCard(s, prices, history, withToggle){
   </div>`;
 }
 
-function giftStatusOf(code){ return localStorage.getItem('gift_'+code) || 'wait'; }
+// 紀念品狀態有兩個來源：貓貓在這台裝置點的（localStorage）、我寫進 holdings.json 的（giftStatus）。
+// 規則＝**誰比較新誰贏**。當天點的一定贏（資料檔日期算當日 00:00），所以按鈕永遠點得動。
+let STOCK_BY_CODE = {};
+function giftStatusOf(code){
+  const local   = localStorage.getItem('gift_'+code);
+  const localAt = +(localStorage.getItem('giftAt_'+code) || 0);   // 舊資料沒時間戳＝0，資料檔優先
+  const s = STOCK_BY_CODE[code] || {};
+  const jsonAt = s.giftStatusDate ? Date.parse(s.giftStatusDate + 'T00:00:00+08:00') : 0;
+  if(s.giftStatus && jsonAt >= localAt) return s.giftStatus;
+  return local || s.giftStatus || 'wait';
+}
 
 function renderCalendar(stocks){
   const up = [], past = [];
@@ -363,12 +373,14 @@ async function main(){
     ]);
     $('updated').textContent = `股價更新：${prices.updated}（收盤資料）`;
 
+    STOCK_BY_CODE = Object.fromEntries(holdings.stocks.map(s => [s.code, s]));
     const soldStocks = holdings.stocks.filter(s => s.sold);
     const stocks = holdings.stocks.filter(s => !s.sold);   // 已賣出的不進買賣清單與行事曆
     const groups = {sell:[], tbd:[], keep:[], invest:[]};
     stocks.forEach(s => {
       let d = decisionOf(s);
-      if(giftStatusOf(s.code) === 'skip') d = 'sell';   // 放棄紀念品 → 自動歸到「要賣的」
+      // 放棄紀念品 → 自動歸到「要賣的」；但明確按過「留」就尊重她的選擇（只是不領紀念品、股票還要）
+      if(giftStatusOf(s.code) === 'skip' && d !== 'keep') d = 'sell';
       (groups[d] || groups.tbd).push(s);
     });
 
@@ -396,8 +408,10 @@ async function main(){
       t.addEventListener('click', e => {
         const btn = e.target.closest('button');
         if(!btn) return;
-        const key = (t.dataset.kind === 'gift' ? 'gift_' : 'decision_') + t.dataset.code;
+        const isGift = t.dataset.kind === 'gift';
+        const key = (isGift ? 'gift_' : 'decision_') + t.dataset.code;
         localStorage.setItem(key, btn.dataset.v);
+        if(isGift) localStorage.setItem('giftAt_'+t.dataset.code, Date.now());
         main();
       });
     });
