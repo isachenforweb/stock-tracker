@@ -1,23 +1,23 @@
 {
- "updated": "2026-10-08 21:43",
+ "updated": "2026-10-09 21:28",
  "quotes": {
   "0050": {
-   "close": 114.95,
+   "close": 116.05,
    "mavg": null,
    "market": "twse",
-   "date": "2026-10-08"
+   "date": "2026-10-07"
   },
   "006208": {
-   "close": 263.4,
+   "close": 265.6,
    "mavg": null,
    "market": "twse",
-   "date": "2026-10-08"
+   "date": "2026-10-07"
   },
   "00935": {
-   "close": 62.35,
+   "close": 62.95,
    "mavg": null,
    "market": "twse",
-   "date": "2026-10-08"
+   "date": "2026-10-07"
   },
   "2330": {
    "close": 2550.0,
@@ -407,7 +407,7 @@
    "close": 19.86,
    "mavg": null,
    "market": "tpex",
-   "date": "2026-10-07"
+   "date": "2026-10-08"
   },
   "1103": {
    "close": 13.15,
